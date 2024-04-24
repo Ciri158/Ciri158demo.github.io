@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> </title>
+    <script>
+        function getIP() {
+            fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip').innerText = data.ip;
+            });
+        }
+
+        function getAccessTime() {
+            var date = new Date();
+            document.getElementById('access-time').innerText = date.toLocaleString();
+        }
+
+        function getDeviceInfo() {
+            var userAgent = navigator.userAgent;
+            var deviceInfo = "Unknown";
+
+            if (/Windows/i.test(userAgent)) {
+                deviceInfo = "Windows";
+            } else if (/Macintosh|MacIntel|MacPPC|Mac68K/i.test(userAgent)) {
+                deviceInfo = "Mac OS";
+            } else if (/iPhone/i.test(userAgent)) {
+                deviceInfo = "iPhone";
+            } else if (/iPad/i.test(userAgent)) {
+                deviceInfo = "iPad";
+            } else if (/Android/i.test(userAgent)) {
+                deviceInfo = "Android";
+            } else if (/Linux/i.test(userAgent)) {
+                deviceInfo = "Linux";
+            } else if (/CrOS/i.test(userAgent)) {
+                deviceInfo = "Chrome OS";
+            }
+
+            document.getElementById('device-info').innerText = deviceInfo;
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    document.getElementById('location').innerText = "经度: " + latitude + ", 纬度: " + longitude;
+                });
+            } else {
+                document.getElementById('location').innerText = "无法获取位置信息";
+            }
+        }
+
+        window.onload = function() {
+            getIP();
+            getAccessTime();
+            getDeviceInfo();
+            getUserLocation();
+        };
+    </script>
+</head>
+<body>
+    <h1></h1>
+    <p>您的IP地址是：<span id="ip"></span></p>
+    <p>访问时间是：<span id="access-time"></span></p>
+    <p>您的设备信息是：<span id="device-info"></span></p>
+    <p>您的位置是：<span id="location"></span></p>
+</body>
+</html>
